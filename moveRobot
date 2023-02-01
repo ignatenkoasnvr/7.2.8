@@ -1,0 +1,22 @@
+public static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
+	RobotConnection connect = null;
+	for (int i = 0; i < 3; i++) {
+		try {
+			connect = robotConnectionManager.getConnection();
+			connect.moveRobotTo(toX, toY);
+			i = 3;
+		} catch (RobotConnectionException e) {
+			if(i == 3 ) {	
+				throw new RobotConnectionException("hello");
+			}
+		} finally {
+			try {
+				if(i != 3 ) {	
+					//throw new RobotConnectionException("MOVE EXCEPTION");
+					
+				connect.close();
+				}
+			} catch (RobotConnectionException e) {} // (RobotConnectionException("3 attempts failed")) {}
+		}
+	}
+}
